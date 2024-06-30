@@ -24,13 +24,14 @@ const resetGame = () => {
         enableBoxes();
         msgcontainer.classList.add("hide"); 
     }
-}
+};
 resetbtn.addEventListener("click",resetGame);
 newbtn.addEventListener("click",resetGame);
 
 boxes.forEach((box) => {
     box.addEventListener("click", () => {
      if(turnO) {  //playerO turn
+        box.style.color = "white"
         box.innerText = "O" ;
         turnO = false ;
      } else {   // playerX turn
@@ -47,19 +48,19 @@ const disableBoxes = () => {
     for(let box of boxes){
         box.disabled = true;
     }
-}
+};
 
 const enableBoxes = () => {
     for(let box of boxes){
         box.disabled = false;
     }
-}
+};
 
 const showWinner = (winner) => {
     msg.innerText = `Congratulations,Winner is player ${winner}`;
     msgcontainer.classList.remove("hide");
     disableBoxes();
-}
+};
 
 const checkwinner = () =>{
     for(let pattern of winPatterns) {   
@@ -71,8 +72,24 @@ const checkwinner = () =>{
         if(pos1Val === pos2Val && pos2Val=== pos3Val) {
             console.log("Winner is player",pos1Val);
             showWinner(pos1Val);
+            return;   // stops checking further for winners by return statement.
         }
       }
     }
+    draw();
 };
 
+const draw =() => {
+    let count = 0 ;
+ boxes.forEach((box) =>{
+    if(box.innerText!==""){
+        count++;
+    }
+});
+ if (count === 9) {
+    console.log("Game was a DRAW!");
+    msg.innerText = " Game was a DRAW! " ;
+    msgcontainer.classList.remove("hide");
+    disableBoxes();
+ }
+};
